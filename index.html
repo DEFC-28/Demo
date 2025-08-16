@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConfigHub Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --dark-bg: #0a0e17;
+            --card-bg: #161b28;
+            --text-light: #e0e6f0;
+            --text-lighter: #f0f5ff;
+            --accent-blue: #4d8aff;
+            --accent-purple: #a36efd;
+            --accent-green: #39ffa0;
+            --accent-teal: #00f3ff;
+            --accent-orange: #ff9b33;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --border-color: #252d40;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1e1e2c 0%, #2d2d44 100%);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        header {
+            background-color: rgba(22, 27, 40, 0.95);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--accent-teal);
+            font-size: 2.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover i {
+            transform: rotate(15deg);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(to right, var(--accent-teal), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        /* Welcome Section */
+        .welcome-section {
+            max-width: 1200px;
+            margin: 2rem auto 0;
+            padding: 0 5%;
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .welcome-text {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--accent-teal), var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .welcome-subtext {
+            color: #8a9bba;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+        
+        /* Weekly News */
+        .weekly-news {
+            background: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+            padding: 1px;
+            border-radius: 15px;
+            margin: 2rem auto;
+            max-width: 1200px;
+            box-shadow: var(--shadow);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .weekly-news-content {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .news-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+        }
+
+        .news-tag {
+            background: var(--accent-green);
+            color: var(--dark-bg);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .news-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .news-footer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #8a9bba;
+            font-size: 0.9rem;
+        }
+        
+        /* Download Section Tag */
+        .download-section-tag {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: -1rem;
+        }
+
+        .download-tag {
+            display: inline-block;
+            background: linear-gradient(to right, var(--accent-green), var(--accent-teal));
+            color: var(--dark-bg);
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(50%);
+            z-index: 10;
+            position: relative;
+        }
+        
+        /* Search Container */
+        .search-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 5%;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 0 15px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            height: 55px;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box:focus-within {
+            box-shadow: 0 4px 20px rgba(88, 166, 255, 0.2);
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .filter-dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding-right: 15px;
+            margin-right: 10px;
+            border-right: 1px solid var(--border-color);
+            height: 100%;
+        }
+
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            font-weight: 500;
+            color: var(--text-light);
+            padding: 0;
+            height: 100%;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            background-color: var(--card-bg);
+            min-width: 200px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: var(--transition);
+            padding: 10px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-dropdown.active .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content div {
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            color: var(--text-light);
+        }
+
+        .dropdown-content div:hover {
+            background-color: rgba(88, 166, 255, 0.1);
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0 10px;
+            font-size: 16px;
+            outline: none;
+            color: var(--text-light);
+            height: 100%;
+            line-height: 55px;
+        }
+
+        .search-input::placeholder {
+            color: #8b949e;
+        }
+
+        .search-btn {
+            background: var(--accent-blue);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 30px;
+            padding: 0.6rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-btn:hover {
+            background: #388bfd;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(88, 166, 255, 0.3);
+        }
+
+        /* Config List */
+        .config-list {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .config-item:last-child {
+            border-bottom: none;
+        }
+
+        .config-item:hover {
+            background-color: rgba(88, 166, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .config-text h3 {
+            margin: 0 0 4px 0;
+            color: var(--text-lighter);
+            font-size: 1.05rem;
+        }
+
+        .config-text p {
+            margin: 0;
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+
+        .download-btn {
+            background: rgba(88, 166, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .download-btn:hover {
+            background: var(--accent-blue);
+            transform: scale(1.1);
+        }
+
+        .download-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--accent-blue);
+            transition: var(--transition);
+        }
+
+        .download-btn:hover svg {
+            fill: var(--dark-bg);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #8b949e;
+            display: none;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .no-results i {
+            font-size: 2rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .see-more-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .see-more-btn {
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        
+        .see-more-btn:hover {
+            background: #9c5eff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(163, 110, 253, 0.3);
+        }
+        
+        /* App List */
+        .app-list-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .app-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .app-list-header h2 {
+            font-size: 1.5rem;
+            color: var(--text-lighter);
+        }
+
+        .app-scroll-container {
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .app-list {
+            display: flex;
+            gap: 1.5rem;
+            padding-bottom: 10px;
+            min-width: max-content;
+        }
+
+        .app-card {
+            background: rgba(26, 33, 51, 0.7);
+            border-radius: 15px;
+            padding: 1.5rem;
+            width: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            animation: bounce-slow 4s infinite;
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+
+        .app-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 14px; /* Slightly curved corners */
+            object-fit: cover;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #4361ee 0%, #a36efd 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .app-icon img {
+            border-radius: 12px; /* Slightly curved corners for images */
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .app-card h3 {
+            font-size: 1rem;
+            text-align: center;
+            color: var(--text-lighter);
+        }
+        
+        /* Featured Configs */
+      /* Featured Configs */
+        .featured-configs {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 5%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            color: var(--text-lighter);
+            animation: fadeInUp 0.6s 0.4s both;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent-teal), var(--accent-purple));
+            border-radius: 2px;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            animation: fadeIn 0.8s 0.5s both;
+        }
+
+        .featured-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeInUp 0.6s both;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border-color: rgba(77, 138, 255, 0.4);
+        }
+
+        .featured-img {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .featured-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .featured-card:hover .featured-img img {
+            transform: scale(1.05);
+        }
+
+        .app-label {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(22, 27, 40, 0.9);
+            color: var(--accent-teal);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+
+        .featured-content {
+            padding: 1.8rem;
+        }
+
+        .featured-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-lighter);
+        }
+
+        .featured-content p {
+            color: #8a9bba;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .featured-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-size {
+            background: rgba(57, 255, 160, 0.1);
+            color: var(--accent-green);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .download-card-btn {
+            background: var(--accent-blue);
+            color: var(--dark-bg);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .download-card-btn:hover {
+            background: #3a7cff;
+            transform: translateY(-3px);
+        }
+        
+        /* About Authors Section */
+        .authors-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 5%;
+        }
+
+        .authors-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-lighter);
+            position: relative;
+        }
+
+        .authors-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent-green), var(--accent-orange));
+            border-radius: 2px;
+        }
+
+        .authors-text {
+            color: #8a9bba;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .authors-scroll-container {
+            overflow-x: auto;
+            padding: 15px 0 25px;
+            scrollbar-width: none;
+        }
+
+        .authors-scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .authors-grid {
+            display: flex;
+            gap: 1.5rem;
+            min-width: max-content;
+            padding: 10px 0;
+        }
+
+        .author-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 140px;
+            background: rgba(26, 33, 51, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        .author-card:hover {
+            transform: translateY(-5px);
+            background: rgba(26, 33, 51, 0.5);
+        }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            border: 2px solid var(--accent-purple);
+            transition: var(--transition);
+        }
+
+        .author-avatar:hover {
+            transform: scale(1.05);
+            border-color: var(--accent-teal);
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info {
+            text-align: center;
+        }
+
+        .author-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-lighter);
+        }
+
+        .author-info p {
+            color: #8a9bba;
+            font-size: 0.85rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: #080b12;
+            padding: 4rem 5% 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.8rem;
+            position: relative;
+            display: inline-block;
+            color: var(--text-lighter);
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent-teal);
+            border-radius: 2px;
+        }
+
+        .footer-column p {
+            margin-bottom: 1.5rem;
+            color: #8a9bba;
+            line-height: 1.8;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.9rem;
+        }
+
+        .footer-column ul li a {
+            color: #8a9bba;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.05rem;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--accent-teal);
+            transform: translateX(5px);
+        }
+
+        .footer-column ul li a i {
+            width: 20px;
+            color: var(--accent-blue);
+            transition: transform 0.3s ease;
+        }
+
+        .footer-column ul li a:hover i {
+            transform: translateX(3px);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(26, 33, 51, 0.7);
+            color: var(--text-light);
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .social-icons a:hover {
+            background: var(--accent-blue);
+            color: var(--dark-bg);
+            transform: translateY(-5px);
+        }
+
+        .newsletter p {
+            margin-bottom: 1.2rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-form input {
+            flex-grow: 1;
+            padding: 0.9rem 1.2rem;
+            background: rgba(26, 33, 51, 0.7);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            border-radius: 30px 0 0 30px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .newsletter-form input:focus {
+            border-color: var(--accent-teal);
+        }
+
+        .newsletter-form button {
+            background: var(--accent-purple);
+            color: var(--dark-bg);
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0 30px 30px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .newsletter-form button:hover {
+            background: #9c5eff;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #1a2335;
+            color: #6a7a9c;
+            font-size: 0.95rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Animations */
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0); 
+            }
+            50% { 
+                transform: translateY(-10px); 
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes spin-slow {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes crazy {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            20% { transform: translate(5px, -10px) rotate(5deg); }
+            40% { transform: translate(-5px, 10px) rotate(-5deg); }
+            60% { transform: translate(8px, -8px) rotate(8deg); }
+            80% { transform: translate(-8px, 8px) rotate(-8deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        
+        @keyframes bounce-slow {
+            0%, 100% { 
+                transform: translateY(0); 
+            }
+            50% { 
+                transform: translateY(-10px); 
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .welcome-text {
+                font-size: 2.4rem;
+            }
+            
+            .featured-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 900px) {
+            .featured-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+                border-radius: 12px;
+            }
+            
+            .filter-dropdown {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding-right: 0;
+                padding-bottom: 15px;
+                margin-right: 0;
+                margin-bottom: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .search-input {
+                width: 100%;
+                margin-bottom: 15px;
+                line-height: normal;
+                padding: 10px;
+            }
+            
+            .search-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .app-list {
+                gap: 1rem;
+            }
+            
+            .app-card {
+                width: 130px;
+                padding: 1rem;
+            }
+            
+            .welcome-text {
+                font-size: 2rem;
+            }
+            
+            .welcome-subtext {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .welcome-text {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="text-gray-100">
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>ConfigHub</h1>
+            </div>
+            <div class="flex space-x-4">
+                <button class="bg-dark hover:bg-gray-800 px-4 py-2 rounded-lg transition-all">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button class="bg-primary hover:bg-secondary px-4 py-2 rounded-lg transition-all">
+                    <i class="fas fa-user mr-2"></i> Profile
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Welcome Text -->
+        <section class="welcome-section">
+            <h1 class="welcome-text">Premium VPN Configurations at Your Fingertips</h1>
+            <p class="welcome-subtext">Access the most reliable and high-speed VPN configurations for all major clients. Updated daily with new working configs.</p>
+        </section>
+
+        <!-- Weekly News -->
+        <div class="weekly-news">
+            <div class="weekly-news-content">
+                <div class="news-header">
+                    <h2>
+                        <i class="fas fa-bullhorn text-accentTeal"></i>
+                        Weekly News
+                    </h2>
+                    <span class="news-tag">New</span>
+                </div>
+                <div class="news-content">
+                    <p>Introducing our new APK repository with over 500 verified apps. Enhanced security features now available for all enterprise users. Plus, get exclusive access to our new VPN configs!</p>
+                </div>
+                <div class="news-footer">
+                    <i class="far fa-clock"></i>
+                    <span>Updated 3 hours ago</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Download Section Tag -->
+        <div class="download-section-tag">
+            <div class="download-tag">
+                <i class="fas fa-cloud-download-alt"></i> Download Configurations
+            </div>
+        </div>
+        <br>
+        <!-- Integrated Config Section -->
+        <main class="search-container">
+            <!-- Native Banner Ad from Monetag -->
+            <div class="monetag-banner">
+                <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9400957,document.createElement('script'))</script>
+            </div>
+            
+            <div class="search-box">
+                <div class="filter-dropdown">
+                    <div class="filter-btn">
+                        <i class="fas fa-filter filter-icon"></i>
+                        <span>All Formats</span>
+                        <i class="fas fa-chevron-down arrow"></i>
+                    </div>
+                    <div class="dropdown-content">
+                        <div data-filter="all"><i class="fas fa-file-alt"></i> All Formats</div>
+                        <div data-filter=".hc"><i class="fas fa-file-code"></i> HTTP Custom</div>
+                        <div data-filter=".ha"><i class="fas fa-tunnel"></i> HA Tunnel</div>
+                        <div data-filter=".xt"><i class="fas fa-tunnel"></i> X Tunnel</div>
+                        <div data-filter=".ar"><i class="fas fa-tunnel"></i> AR Tunnel</div>
+                    </div>
+                </div>
+                
+                <input type="text" class="search-input" placeholder="Search configurations..." id="searchInput">
+                
+                <button class="search-btn" id="searchBtn">
+                    <i class="fas fa-search"></i>
+                    <span>Search</span>
+                </button>
+            </div>
+            
+            <div class="no-results" id="noResults">
+                <i class="fas fa-search"></i>
+                <h3>No configurations found</h3>
+                <p>Try adjusting your search or filters</p>
+            </div>
+
+            <section class="config-list" id="configList">
+                <!-- Configurations will be displayed here -->
+            </section>
+            
+            <div class="see-more-container">
+                <button class="see-more-btn" id="seeMoreConfigBtn">
+                    <i class="fas fa-plus"></i>
+                    <span>See More Configurations</span>
+                </button>
+            </div>
+        </main>
+
+        <!-- App List with VPN/APK Icons -->
+        <div class="app-list-container">
+            <div class="app-list-header">
+                <h2>Popular VPN Apps</h2>
+                <button class="text-accentTeal hover:text-primary transition-colors">
+                    <i class="fas fa-ellipsis-h"></i>
+                </button>
+            </div>
+            
+            <div class="app-scroll-container">
+                <div class="app-list">
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <img src="download.png" alt="HTTP Custom">
+                        </div>
+                        <h3>HTTP Custom</h3>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <img src="download.jpeg" alt="HA Tunnel">
+                        </div>
+                        <h3>HA Tunnel</h3>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <img src="x.jpeg" alt="X Tunnel">
+                        </div>
+                        <h3>X Tunnel</h3>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <img src="ar.jpeg" alt="AR Tunnel">
+                        </div>
+                        <h3>AR Tunnel</h3>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <img src="st.png" alt="Stark VPN">
+                        </div>
+                        <h3>Stark VPN</h3>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <img src="bd.jpeg" alt="bdnetVPN">
+                        </div>
+                        <h3>BD NET VPN</h3>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <img src="tls.jpeg" alt="TLSTunnel">
+                        </div>
+                        <h3>TLS Tunnel</h3>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <img src="ham.png" alt="hamara">
+                        </div>
+                        <h3>Hamara Tunnel</h3>
+                    </div>
+                    
+                        <div class="app-card">
+                        <div class="app-icon">
+                            <img src="hamara.jpeg" alt="hamara">
+                        </div>
+                        <h3>Hamara Tunnel Lite</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+   <!-- Featured Configurations with See More Button -->
+        <section class="featured-configs">
+            <h2 class="section-title">Featured Configurations</h2>
+            <div class="featured-grid">
+                <!-- Featured Card 1 -->
+                <div class="featured-card" style="--i:0.1">
+                    <div class="featured-img">
+                        <img src="https://images.unsplash.com/photo-1558494945-7d6587fcf316?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80" alt="HTTP Custom">
+                        <div class="app-label">HTTP Custom</div>
+                    </div>
+                    <div class="featured-content">
+                        <h3>Ultimate HTTP Custom Config</h3>
+                        <p>Unlock high-speed connections with this premium configuration</p>
+                        <div class="featured-meta">
+                            <div class="file-size"><i class="fas fa-database"></i> 1.8KB</div>
+                            <a href="#" class="download-card-btn">Download <i class="fas fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Featured Card 2 -->
+                <div class="featured-card" style="--i:0.2">
+                    <div class="featured-img">
+                        <img src="https://images.unsplash.com/photo-1587202372775-e229f172b5b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80" alt="HA Tunnel">
+                        <div class="app-label">HA Tunnel</div>
+                    </div>
+                    <div class="featured-content">
+                        <h3>HA Tunnel Pro Package</h3>
+                        <p>Advanced settings for secure and reliable VPN tunneling</p>
+                        <div class="featured-meta">
+                            <div class="file-size"><i class="fas fa-database"></i> 2.1KB</div>
+                            <a href="#" class="download-card-btn">Download <i class="fas fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Featured Card 3 -->
+                <div class="featured-card" style="--i:0.3">
+                    <div class="featured-img">
+                        <img src="https://images.unsplash.com/photo-1607799279861-4dd421887fb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80" alt="X Tunnel">
+                        <div class="app-label">X Tunnel</div>
+                    </div>
+                    <div class="featured-content">
+                        <h3>X Tunnel Speed Booster</h3>
+                        <p>Optimized for maximum speed and minimal data usage</p>
+                        <div class="featured-meta">
+                            <div class="file-size"><i class="fas fa-database"></i> 1.5KB</div>
+                            <a href="#" class="download-card-btn">Download <i class="fas fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hidden Featured Cards (will be revealed with "See More") -->
+                <div class="featured-card hidden" style="--i:0.4">
+                    <div class="featured-img">
+                        <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80" alt="Premium VPN">
+                        <div class="app-label">Premium VPN</div>
+                    </div>
+                    <div class="featured-content">
+                        <h3>Premium VPN Security Suite</h3>
+                        <p>Military-grade encryption for ultimate online privacy</p>
+                        <div class="featured-meta">
+                            <div class="file-size"><i class="fas fa-database"></i> 2.4KB</div>
+                            <a href="#" class="download-card-btn">Download <i class="fas fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-card hidden" style="--i:0.5">
+                    <div class="featured-img">
+                        <img src="https://images.unsplash.com/photo-1639754390580-2e7437267698?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80" alt="Mobile VPN">
+                        <div class="app-label">Mobile VPN</div>
+                    </div>
+                    <div class="featured-content">
+                        <h3>Mobile Data Optimizer</h3>
+                        <p>Reduce data usage while maintaining high-speed connections</p>
+                        <div class="featured-meta">
+                            <div class="file-size"><i class="fas fa-database"></i> 1.7KB</div>
+                            <a href="#" class="download-card-btn">Download <i class="fas fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-card hidden" style="--i:0.6">
+                    <div class="featured-img">
+                        <img src="https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80" alt="Gaming VPN">
+                        <div class="app-label">Gaming VPN</div>
+                    </div>
+                    <div class="featured-content">
+                        <h3>Ultra-Low Latency Gaming VPN</h3>
+                        <p>Reduce ping times and eliminate lag for competitive gaming</p>
+                        <div class="featured-meta">
+                            <div class="file-size"><i class="fas fa-database"></i> 1.9KB</div>
+                            <a href="#" class="download-card-btn">Download <i class="fas fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- See More Button -->
+            <div class="see-more-container">
+                <button class="see-more-btn" id="seeMoreFeaturedBtn">
+                    <i class="fas fa-plus"></i>
+                    <span>See More</span>
+                </button>
+            </div>
+            
+        </section>
+        
+        <!-- About Authors Section -->
+        <section class="authors-section">
+            <h2 class="authors-title">About the Authors</h2>
+            <p class="authors-text">
+                We are a team of network security experts and VPN enthusiasts with over 8 years of experience in the industry. Our mission is to provide the community with reliable, high-performance VPN configurations that prioritize both speed and security.
+            </p>
+            
+             <p class="authors-text">
+                Founded in 2018, ConfigHub has grown to become a trusted resource for thousands of users worldwide. Our team continuously tests and optimizes configurations to ensure they work seamlessly across different networks and devices.
+            </p>
+                 <p class="authors-text">
+                We believe in an open internet where privacy is a fundamental right. All our configurations are thoroughly vetted for security vulnerabilities and performance issues before being released to the public
+                </p>
+                  <h3 class="authors-title">Our contributers</h3>
+       
+            
+            <div class="authors-scroll-container">
+                <div class="authors-grid">
+                    <div class="author-card">
+                        <div class="author-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alex Morgan">
+                        </div>
+                        <div class="author-info">
+                            <h3>Alex Morgan</h3>
+                            <p>Lead Developer</p>
+                        </div>
+                    </div>
+                    
+                    <div class="author-card">
+                        <div class="author-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Chen">
+                        </div>
+                        <div class="author-info">
+                            <h3>Sarah Chen</h3>
+                            <p>Security Expert</p>
+                        </div>
+                    </div>
+                    
+                    <div class="author-card">
+                        <div class="author-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="David Kim">
+                        </div>
+                        <div class="author-info">
+                            <h3>David Kim</h3>
+                            <p>Network Architect</p>
+                        </div>
+                    </div>
+                    
+                    <div class="author-card">
+                        <div class="author-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Maya Patel">
+                        </div>
+                        <div class="author-info">
+                            <h3>Maya Patel</h3>
+                            <p>VPN Specialist</p>
+                        </div>
+                    </div>
+                    
+                    <div class="author-card">
+                        <div class="author-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="James Wilson">
+                        </div>
+                        <div class="author-info">
+                            <h3>James Wilson</h3>
+                            <p>Config Designer</p>
+                        </div>
+                    </div>
+                    
+                    <div class="author-card">
+                        <div class="author-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/23.jpg" alt="Emma Garcia">
+                        </div>
+                        <div class="author-info">
+                            <h3>Emma Garcia</h3>
+                            <p>QA Engineer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>About ConfigHub</h3>
+                <p>Your trusted resource for VPN expertise, mobile data optimization, and network configuration guides since 2023.</p>
+                <p>We provide beginner-friendly tutorials and advanced techniques for VPN enthusiasts.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Configurations</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> HA Tunnel Files</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> HTTP Custom Files</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> X Tunnel Files</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Ar Tunnel Files</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> JZ Pro Files</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Tutorials</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Free Net Resources</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column newsletter">
+                <h3>Newsletter</h3>
+                <p>Subscribe for the latest VPN configs and updates:</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email">
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+                <p>Get notified when new configurations are added</p>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2025 ConfigHub. All rights reserved. | Designed for VPN enthusiasts</p>
+        </div>
+    </footer>
+
+    <script>
+        // Config data
+        const configData = [
+            {
+                title: "𝗩𝗢𝗗𝗔𝗖𝗢𝗠🩵𝗨𝗡𝗟𝗜𝗠𝗜𝗧𝗘𝗗🥤PLUG 𝗪𝗘𝗟𝗖𝗢𝗠𝗘 𝗥𝗦𝗔",
+                type: "Ha Tunnel",
+                date: "12 Aug 2025",
+                link: "𝗩𝗢𝗗𝗔𝗖𝗢𝗠🩵𝗨𝗡𝗟𝗜𝗠𝗜𝗧𝗘𝗗🥤PLUG 𝗪𝗘𝗟𝗖𝗢𝗠𝗘 𝗥𝗦𝗔.hat"
+            },
+            {
+                title: "𝗩𝗢𝗗𝗔𝗖𝗢𝗠💛𝗨𝗡𝗟𝗜𝗠𝗜𝗧𝗘𝗗🥤༆𝗪𝗘𝗟𝗖𝗢𝗠𝗘 𝗥𝗦𝗔 ",
+                type: "TLS Tunnel",
+                date: "12 Aug 2025",
+                link: "𝗩𝗢𝗗𝗔𝗖𝗢𝗠💛𝗨𝗡𝗟𝗜𝗠𝗜𝗧𝗘𝗗🥤༆𝗪𝗘𝗟𝗖𝗢𝗠𝗘 𝗥𝗦𝗒 👩‍🚒.tls"
+            },
+            {
+                title: "VODACOM UNLIMITED 🥺 WELCOME RSA",
+                type: "Http coustom",
+                date: "12 Aug 2025",
+                link: "VODACOM UNLIMITED 🥺 WELCOME RSA.hc"
+            },
+            {
+                title: "𝗩𝗢𝗗𝗔𝗖𝗢𝗠🤍𝗨𝗡𝗟𝗜𝗠𝗜𝗧𝗘𝗗🥤",
+                type: "Stark VPN",
+                date: "12 Aug 2025",
+                link: "𝗩𝗢𝗗𝗔𝗖𝗢𝗠🤍𝗨𝗡𝗟𝗜𝗠𝗜𝗧𝗘𝗗🥤.stk"
+            },
+            {
+                title: "𝗩𝗢𝗗𝗔𝗖𝗢𝗠❤️𝗨𝗡𝗟𝗜𝗠𝗜𝗧𝗘𝗗🥤𝗪𝗘𝗟𝗖𝗢𝗠𝗘 𝗥𝗦𝗔",
+                type: "Ha Tunnel",
+                date: "12 Aug 2025",
+                link: "𝗩𝗢𝗗𝗔𝗖𝗢𝗠❤️𝗨𝗡𝗟𝗜𝗠𝗜𝗧𝗘𝗗🥤𝗪𝗘𝗟𝗖𝗢𝗠𝗘 𝗥𝗦𝗔 .hat"
+            },
+            {
+                title: "MTN SA 100MB DAILY",
+                type: "HTTP Custom",
+                date: "12 June 2025",
+                link: "༒︎𝚒𝚌𝚎 𝚋𝚕𝚞𝚎  𝙼𝚃𝙽 𝚂𝙰 100𝙼𝙱 𝙳𝙰𝙸𝙻𝚈.hc"
+            },
+            {
+                title: "Vodacom Unlimited Slow DNS",
+                type: "HTTP Custom",
+                date: "12 June 2025",
+                link: "🏴🤡Vodacom SA Unlimited slow🐌 DNS 30days plug🇿🇦 (1).hc"
+            },
+            {
+                title: "MTN 1GB Monthly",
+                type: "Ha Tunnel",
+                date: "10 June",
+                link: "mtn-1gb-monthly.ha"
+            },
+            {
+                title: "Vodacom Unlimited XT",
+                type: "X Tunnel",
+                date: "11 June 2025",
+                link: "vodacom-unlimited.xt"
+            },
+            {
+                title: "MTN AR Tunnel Config",
+                type: "AR Tunnel",
+                date: "9 June 2025",
+                link: "mtn-ar-config.ar"
+            },
+            {
+                title: "Premium Gaming Config",
+                type: "HTTP Custom",
+                date: "15 July 2025",
+                link: "gaming-premium.hc"
+            },
+            {
+                title: "Secure Enterprise VPN",
+                type: "Ha Tunnel",
+                date: "20 July 2025",
+                link: "enterprise-secure.ha"
+            },
+            {
+                title: "Ultra-Fast Streaming",
+                type: "X Tunnel",
+                date: "5 Aug 2025",
+                link: "streaming-ultrafast.xt"
+            }
+        ];
+
+        // DOM elements
+        const configList = document.getElementById('configList');
+        const noResults = document.getElementById('noResults');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const seeMoreConfigBtn = document.getElementById('seeMoreConfigBtn');
+        const seeMoreFeaturedBtn = document.getElementById('seeMoreFeaturedBtn');
+        const filterDropdown = document.querySelector('.filter-dropdown');
+        const filterBtn = document.querySelector('.filter-btn span');
+        const dropdownItems = document.querySelectorAll('.dropdown-content div');
+        const hiddenCards = document.querySelectorAll('.featured-card.hidden');
+        
+        // Variables
+        let currentFilter = 'all';
+        let visibleConfigs = 5;
+        let filteredData = [...configData];
+        let showMoreFeatured = false;
+
+        // Initialize config list
+        function renderConfigItems() {
+            configList.innerHTML = '';
+            const itemsToShow = filteredData.slice(0, visibleConfigs);
+            
+            if (itemsToShow.length === 0) {
+                noResults.style.display = 'block';
+                configList.style.display = 'none';
+                seeMoreConfigBtn.style.display = 'none';
+                return;
+            }
+            
+            noResults.style.display = 'none';
+            configList.style.display = 'block';
+            seeMoreConfigBtn.style.display = 'block';
+            
+            itemsToShow.forEach(item => {
+                const configItem = document.createElement('div');
+                configItem.className = 'config-item';
+                configItem.innerHTML = `
+                    <div class="config-text">
+                        <h3>${item.title}</h3>
+                        <p>${item.type} • Updated: ${item.date}</p>
+                    </div>
+                    <a href="${item.link}" download class="download-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M5 20h14v-2H5v2zm7-18l-5.5 5.5h4v6h3v-6h4L12 2z"/>
+                        </svg>
+                    </a>
+                `;
+                configList.appendChild(configItem);
+            });
+            
+            // Hide "See More" button if all items are shown
+            if (visibleConfigs >= filteredData.length) {
+                seeMoreConfigBtn.style.display = 'none';
+            }
+        }
+
+        // Filter configs based on search and filter
+        function filterConfigs() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            
+            filteredData = configData.filter(item => {
+                const matchesSearch = searchTerm === '' || 
+                    item.title.toLowerCase().includes(searchTerm) || 
+                    item.type.toLowerCase().includes(searchTerm);
+                
+                const matchesFilter = currentFilter === 'all' || 
+                    item.link.toLowerCase().endsWith(currentFilter);
+                
+                return matchesSearch && matchesFilter;
+            });
+            
+            visibleConfigs = 5;
+            renderConfigItems();
+        }
+
+        // Event listeners
+        filterDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            filterDropdown.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!filterDropdown.contains(e.target)) {
+                filterDropdown.classList.remove('active');
+            }
+        });
+
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', () => {
+                currentFilter = item.getAttribute('data-filter');
+                filterBtn.textContent = item.textContent.trim();
+                filterDropdown.classList.remove('active');
+                filterConfigs();
+            });
+        });
+
+        searchInput.addEventListener('input', filterConfigs);
+        searchBtn.addEventListener('click', filterConfigs);
+        searchInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') filterConfigs();
+        });
+
+        seeMoreConfigBtn.addEventListener('click', () => {
+            visibleConfigs += 5;
+            renderConfigItems();
+        });
+
+        // Featured Configurations "See More" functionality
+        seeMoreFeaturedBtn.addEventListener('click', () => {
+            showMoreFeatured = !showMoreFeatured;
+            
+            hiddenCards.forEach(card => {
+                card.classList.toggle('hidden');
+            });
+            
+            seeMoreFeaturedBtn.innerHTML = showMoreFeatured ? 
+                '<i class="fas fa-minus"></i><span>See Less</span>' : 
+                '<i class="fas fa-plus"></i><span>See More</span>';
+        });
+
+        // Initialize
+        filterConfigs();
+        
+        // Add animation to config items on scroll
+        function animateOnScroll() {
+            const configItems = document.querySelectorAll('.config-item');
+            
+            configItems.forEach((box, index) => {
+                const boxPosition = box.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+
+                if(boxPosition < screenPosition) {
+                    setTimeout(() => {
+                        box.style.opacity = "1";
+                        box.style.transform = "translateX(0)";
+                    }, 150 * index);
+                }
+            });
+        }
+
+        // Set initial state for config items
+        window.addEventListener('DOMContentLoaded', () => {
+            const configItems = document.querySelectorAll('.config-item');
+            configItems.forEach(box => {
+                box.style.opacity = "0";
+                box.style.transform = "translateX(-20px)";
+                box.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+            });
+            
+            animateOnScroll();
+        });
+
+        // Listen for scroll events
+        window.addEventListener('scroll', animateOnScroll);
+        
+        // Card hover effects
+        const buttons = document.querySelectorAll('.download-card-btn, .see-more-btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                button.classList.add('animate-pop');
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('animate-pop');
+            });
+        });
+
+        // News animation
+        const newsSection = document.querySelector('.weekly-news');
+        setInterval(() => {
+            newsSection.style.animation = 'none';
+            setTimeout(() => {
+                newsSection.style.animation = 'float 8s ease-in-out infinite';
+            }, 10);
+        }, 8000);
+    </script>
+</body>
+</html>
